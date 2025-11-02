@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Tim Interaktif</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #00d1ff;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.4s ease, background 0.4s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-bottom: 2px solid #00d1ff;
+    }
+
+    .card-content {
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .card h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+      color: #00d1ff;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #d1d1d1;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+      gap: 1rem;
+    }
+
+    .socials a {
+      color: #00d1ff;
+      font-size: 1.4rem;
+      transition: 0.3s;
+    }
+
+    .socials a:hover {
+      color: #fff;
+      transform: scale(1.2);
+    }
+
+    /* MODAL (Popup biodata) */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.3s ease;
+      z-index: 100;
+    }
+
+    .modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: #0f2440;
+      border-radius: 20px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 0 25px rgba(0, 209, 255, 0.5);
+      animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #00d1ff;
+      margin-bottom: 1rem;
+    }
+
+    .modal h2 {
+      color: #00d1ff;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal p {
+      color: #ccc;
+      margin: 0.3rem 0;
+      font-size: 0.95rem;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.8rem;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .close-btn:hover {
+      color: #00d1ff;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Portofolio Tim Kreatif</h1>
+  <div class="team-grid">
+    <div class="card" data-name="Rizky Aditya" data-role="Web Developer" data-detail="Spesialis Frontend dan UX Design" data-email="rizky@example.com" data-skill="HTML, CSS, ReactJS" data-photo="https://i.pravatar.cc/300?img=1">
+      <img src="https://i.pravatar.cc/300?img=1" alt="">
+      <div class="card-content">
+        <h2>Rizky Aditya</h2>
+        <p>Web Developer | Spesialis Frontend dan UX Design</p>
+      </div>
+    </div>
+
+    <div class="card" data-name="Arva AGP" data-role="UI Designer" data-detail="Membuat antarmuka indah dan fungsional" data-email="arva@example.com" data-skill="Figma, Photoshop, UX Research" data-photo="https://i.pravatar.cc/300?img=12">
+      <img src="https://i.pravatar.cc/300?img=12" alt="">
+      <div class="card-content">
+        <h2>Arva AGP</h2>
+        <p>UI Designer | Membuat antarmuka indah dan fungsional</p>
+      </div>
+    </div>
+
+    <div class="card" data-name="Bagas Pratama" data-role="Backend Engineer" data-detail="Pengembang API dan keamanan server" data-email="bagas@example.com" data-skill="NodeJS, MongoDB, Express" data-photo="https://i.pravatar.cc/300?img=33">
+      <img src="https://i.pravatar.cc/300?img=33" alt="">
+      <div class="card-content">
+        <h2>Bagas Pratama</h2>
+        <p>Backend Engineer | Pengembang API dan keamanan server</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2025 Tim Kreatif | Dibuat dengan ❤️ oleh Kami</footer>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <img id="modal-photo" src="" alt="">
+      <h2 id="modal-name"></h2>
+      <p id="modal-role"></p>
+      <p id="modal-detail"></p>
+      <p><strong>Email:</strong> <span id="modal-email"></span></p>
+      <p><strong>Keahlian:</strong> <span id="modal-skill"></span></p>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const modal = document.getElementById('modal');
+    const closeBtn = document.querySelector('.close-btn');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        document.getElementById('modal-name').textContent = card.dataset.name;
+        document.getElementById('modal-role').textContent = card.dataset.role;
+        document.getElementById('modal-detail').textContent = card.dataset.detail;
+        document.getElementById('modal-email').textContent = card.dataset.email;
+        document.getElementById('modal-skill').textContent = card.dataset.skill;
+        document.getElementById('modal-photo').src = card.dataset.photo;
+
+        modal.classList.add('active');
+      });
+    });
+
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Tim Interaktif - Fixed</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a1a, #1a1a3e, #0a192f);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body.light-theme {
+      background: linear-gradient(135deg, #e0e7ff, #f0f4ff, #fef3f3);
+      color: #1a1a2e;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      text-align: center;
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(45deg, #00d1ff, #ff00ea, #00d1ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 4s infinite ease-in-out;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      color: #00d1ff;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .light-theme .subtitle {
+      color: #2563eb;
+    }
+
+    /* === THEME TOGGLE SMALL BOTTOM RIGHT === */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 209, 255, 0.4);
+      border-radius: 50px;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(0, 209, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    .theme-icon {
+      font-size: 1rem;
+    }
+
+    /* === CAROUSEL CONTAINER === */
+    .carousel {
+      position: relative;
+      width: 90%;
+      max-width: 1000px;
+      overflow: hidden;
+      border-radius: 20px;
+      margin-bottom: 3rem;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .card {
+      flex: 0 0 100%;
+      max-width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+
+    .light-theme .card {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(37,99,235,0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-bottom: 3px solid #00d1ff;
+    }
+
+    .card-content {
+      padding: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      color: #00d1ff;
+      margin-bottom: 0.4rem;
+    }
+
+    .card p {
+      color: #ccc;
+      font-size: 0.95rem;
+      margin: 0.3rem 0;
+    }
+
+    .light-theme .card h2 {
+      color: #2563eb;
+    }
+
+    .light-theme .card p {
+      color: #4b5563;
+    }
+
+    /* === CAROUSEL CONTROLS === */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 209, 255, 0.3);
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0, 209, 255, 0.6);
+    }
+
+    .carousel-btn.prev {
+      left: 10px;
+    }
+
+    .carousel-btn.next {
+      right: 10px;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      color: #888;
+      font-size: 0.9rem;
+      padding: 2rem 0;
+    }
+
+    .light-theme footer {
+      color: #555;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.1rem; }
+      .subtitle { font-size: 1rem; }
+      .card img { height: 220px; }
+      .theme-toggle { font-size: 0.8rem; padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === HEADER === -->
+  <h1>Portofolio Tim Kreatif</h1>
+  <p class="subtitle">✨ Inovasi, Kreativitas, dan Teknologi ✨</p>
+
+  <!-- === CAROUSEL SECTION === -->
+  <div class="carousel">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="card" data-name="Rizky Aditya" data-role="Web Developer" data-detail="Spesialis Frontend dan UX Design dengan pengalaman 5+ tahun" data-skill="HTML, CSS, ReactJS, Vue.js, TypeScript" data-photo="https://i.pravatar.cc/300?img=1">
+        <img src="https://i.pravatar.cc/300?img=1" alt="Rizky Aditya">
+        <div class="card-content">
+          <h2>Rizky Aditya</h2>
+          <p>Web Developer</p>
+          <p>Spesialis Frontend dan UX Design</p>
+        </div>
+      </div>
+
+      <div class="card" data-name="Arva AGP" data-role="UI Designer" data-detail="Menciptakan pengalaman visual yang memukau dan intuitif" data-skill="Figma, Photoshop, UX Research, Adobe XD, Sketch" data-photo="https://i.pravatar.cc/300?img=12">
+        <img src="https://i.pravatar.cc/300?img=12" alt="Arva AGP">
+        <div class="card-content">
+          <h2>Arva AGP</h2>
+          <p>UI Designer</p>
+          <p>Antarmuka indah dan fungsional</p>
+        </div>
+      </div>
+
+      <div class="card" data-name="Bagas Pratama" data-role="Backend Engineer" data-detail="Arsitek sistem backend yang scalable dan aman" data-skill="NodeJS, MongoDB, Express, PostgreSQL, Docker" data-photo="https://i.pravatar.cc/300?img=33">
+        <img src="https://i.pravatar.cc/300?img=33" alt="Bagas Pratama">
+        <div class="card-content">
+          <h2>Bagas Pratama</h2>
+          <p>Backend Engineer</p>
+          <p>API dan keamanan server</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carousel Buttons -->
+    <button class="carousel-btn prev" id="prevBtn">❮</button>
+    <button class="carousel-btn next" id="nextBtn">❯</button>
+  </div>
+<!-- === THEME TOGGLE BUTTON === -->
+  <div class="theme-toggle" id="themeToggle">
+    <span class="theme-icon" id="themeIcon">🌙</span>
+    <span id="themeText">Mode Gelap</span>
+  </div>
+
+  <!-- === MODAL === -->
+  <div class="modal" id="modal" style="
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 200;
+  ">
+    <div style="
+      background: rgba(15,25,50,0.95);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      color: white;
+      position: relative;
+      box-shadow: 0 0 30px rgba(0,209,255,0.5);
+    " id="modalContent">
+      <span id="closeModal" style="
+        position:absolute;
+        top:10px;
+        right:15px;
+        font-size:1.5rem;
+        cursor:pointer;
+      ">&times;</span>
+      <img id="modalPhoto" src="" alt="Foto" style="
+        width:120px;
+        height:120px;
+        border-radius:50%;
+        object-fit:cover;
+        border:3px solid #00d1ff;
+        margin-bottom:1rem;
+      ">
+      <h2 id="modalName" style="color:#00d1ff; margin-bottom:0.5rem;"></h2>
+      <p id="modalRole" style="font-weight:600; margin-bottom:0.5rem;"></p>
+      <p id="modalDetail" style="margin-bottom:1rem; color:#ddd;"></p>
+      <div id="modalSkills" style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center;"></div>
+    </div>
+  </div>
+
+  <!-- === FOOTER === -->
+  <footer>© 2025 Tim Kreatif | Dibuat dengan ❤️ dan kode yang indah</footer>
+
+  <!-- === SCRIPT === -->
+  <script>
+    /* === THEME TOGGLE === */
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      themeIcon.textContent = isLight ? '☀️' : '🌙';
+      themeText.textContent = isLight ? 'Mode Terang' : 'Mode Gelap';
+    });
+
+    /* === CAROUSEL === */
+    const track = document.getElementById('carouselTrack');
+    const cards = Array.from(track.children);
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      const width = cards[0].getBoundingClientRect().width;
+      track.style.transform = `translateX(-${currentIndex * width}px)`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % cards.length;
+      updateCarousel();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      updateCarousel();
+    });
+
+    // Auto-slide every 5s
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % cards.length;
+      updateCarousel();
+    }, 5000);
+
+    /* === MODAL === */
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const name = card.dataset.name;
+        const role = card.dataset.role;
+        const detail = card.dataset.detail;
+        const skills = card.dataset.skill.split(', ');
+        const photo = card.dataset.photo;
+
+        document.getElementById('modalName').textContent = name;
+        document.getElementById('modalRole').textContent = role;
+        document.getElementById('modalDetail').textContent = detail;
+        document.getElementById('modalPhoto').src = photo;
+
+        const skillContainer = document.getElementById('modalSkills');
+        skillContainer.innerHTML = '';
+        skills.forEach(skill => {
+          const tag = document.createElement('span');
+          tag.textContent = skill;
+          tag.style.padding = '4px 10px';
+          tag.style.background = 'rgba(0,209,255,0.2)';
+          tag.style.border = '1px solid rgba(0,209,255,0.4)';
+          tag.style.borderRadius = '20px';
+          tag.style.fontSize = '0.8rem';
+          tag.style.color = '#00d1ff';
+          skillContainer.appendChild(tag);
+        });
+
+        modal.style.visibility = 'visible';
+        modal.style.opacity = '1';
+      });
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.style.visibility = 'hidden';
+      modal.style.opacity = '0';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.visibility = 'hidden';
+        modal.style.opacity = '0';
+      }
+    });
+
+    // Responsive fix
+    window.addEventListener('resize', updateCarousel);
+  </script>
+
+</body>
+</html>

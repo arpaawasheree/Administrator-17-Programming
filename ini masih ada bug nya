@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio Tim Kreatif</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a1a, #1a1a3e, #0a192f);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body.light-theme {
+      background: linear-gradient(135deg, #e0e7ff, #f0f4ff, #fef3f3);
+      color: #1a1a2e;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      text-align: center;
+      margin-top: 3rem;
+      margin-bottom: 0.5rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, #00d1ff, #ff00ea, #00d1ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 4s infinite ease-in-out;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      color: #00d1ff;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .light-theme .subtitle {
+      color: #2563eb;
+    }
+
+    /* === THEME TOGGLE === */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 209, 255, 0.4);
+      border-radius: 50px;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(0, 209, 255, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* === CAROUSEL === */
+    .carousel {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin: 3rem auto;
+      overflow: hidden;
+      perspective: 1000px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.3, 1);
+      will-change: transform;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      min-width: 260px;
+      height: 380px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.6s ease;
+      overflow: hidden;
+      flex-shrink: 0;
+      opacity: 0.7;
+      transform: scale(0.9) rotateY(10deg);
+      cursor: pointer;
+    }
+
+    .card.active {
+      transform: scale(1.1) rotateY(0deg);
+      opacity: 1;
+      z-index: 2;
+      box-shadow: 0 0 25px rgba(0, 209, 255, 0.6),
+                  0 0 60px rgba(0, 209, 255, 0.3);
+    }
+
+    .card img {
+      width: 100%;
+      height: 60%;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 209, 255, 0.3);
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 5;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0, 209, 255, 0.6);
+    }
+
+    .carousel-btn.prev { left: 20px; }
+    .carousel-btn.next { right: 20px; }
+
+    /* === MODAL === */
+    #modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 200;
+    }
+
+    #modalContent {
+      background: rgba(15,25,50,0.95);
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      color: white;
+      position: relative;
+      box-shadow: 0 0 30px rgba(0,209,255,0.5);
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+    }
+
+    #modal.show {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    #modal.show #modalContent {
+      transform: scale(1);
+    }
+
+    #closeModal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    #modalPhoto {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #00d1ff;
+      margin-bottom: 1rem;
+    }
+
+    /* Modal light theme */
+    body.light-theme #modal #modalContent {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1a1a2e;
+      box-shadow: 0 0 30px rgba(37, 99, 235, 0.5);
+    }
+
+    body.light-theme #modal #modalName {
+      color: #2563eb;
+    }
+
+    body.light-theme #modal #modalSkills span {
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      color: #2563eb;
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      color: #888;
+      font-size: 0.9rem;
+      padding: 2rem 0;
+    }
+
+    .light-theme footer {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Portofolio Administrator Angkatan 17</h1>
+  <p class="subtitle">✨ Masukkan Teks ✨</p>
+
+  <div class="carousel" id="carousel">
+    <button class="carousel-btn prev" id="prevBtn">❮</button>
+
+    <div class="carousel-track" id="carouselTrack">
+      <!-- CARD 1 -->
+      <div class="card"
+        data-name="Lorem ipsum"
+        data-role="Lorem ipsum dolor sit amet"
+        data-detail="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+        data-skill="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+        data-photo="https://i.pravatar.cc/300?img=1">
+        <img src="https://i.pravatar.cc/300?img=1" alt="Rizky Aditya">
+        <div class="card-content">
+          <h2>Lorem ipsum</h2>
+          <p>Lorem ipsum dolor sit amet</p>
+          <p>Lorem ipsum dolor sit amet</p>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card"
+        data-name="Lorem ipsum"
+        data-role="Lorem ipsum dolor sit amet"
+        data-detail="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+        data-skill="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+        data-photo="https://i.pravatar.cc/300?img=12">
+        <img src="https://i.pravatar.cc/300?img=12" alt="Arva AGP">
+        <div class="card-content">
+          <h2>Lorem ipsum</h2>
+          <p>Lorem ipsum dolor sit amet</p>
+          <p>Lorem ipsum dolor sit amet</p>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card"
+        data-name="Lorem ipsum"
+        data-role="Lorem ipsum dolor sit amet"
+        data-detail="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore"
+        data-skill="Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+        data-photo="https://i.pravatar.cc/300?img=33">
+        <img src="https://i.pravatar.cc/300?img=33" alt="Bagas Pratama">
+        <div class="card-content">
+          <h2>Lorem ipsum</h2>
+          <p>Lorem ipsum dolor sit amet</p>
+          <p>Lorem ipsum dolor sit amet</p>
+        </div>
+      </div>
+    </div>
+
+    <button class="carousel-btn next" id="nextBtn">❯</button>
+  </div>
+
+  <div class="theme-toggle" id="themeToggle">
+    <span id="themeIcon">🌙</span>
+    <span id="themeText">Mode Gelap</span>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal">
+    <div id="modalContent">
+      <span id="closeModal">&times;</span>
+      <img id="modalPhoto" src="" alt="Foto">
+      <h2 id="modalName"></h2>
+      <p id="modalRole" style="font-weight:600;"></p>
+      <p id="modalDetail" style="margin-bottom:1rem;"></p>
+      <div id="modalSkills" style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center;"></div>
+    </div>
+  </div>
+
+  <footer>© 2025 Administrator | Dibuat Dengan Kerja Sama Oleh Semua Anggota Administrator</footer>
+
+  <script>
+    /* === THEME TOGGLE === */
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const themeText = document.getElementById('themeText');
+
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      themeIcon.textContent = isLight ? '☀️' : '🌙';
+      themeText.textContent = isLight ? 'Mode Terang' : 'Mode Gelap';
+    });
+
+    /* === CAROUSEL === */
+    const track = document.getElementById("carouselTrack");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    let cards = Array.from(track.children);
+    let current = 0;
+    let autoSlide;
+    let cardWidth = 0;
+
+    function updateCarousel() {
+      cardWidth = cards[0].offsetWidth + 32;
+      const offset = -current * cardWidth + (track.parentElement.offsetWidth - cardWidth) / 2;
+      track.style.transform = `translateX(${offset}px)`;
+      cards.forEach((card, i) => {
+        card.classList.toggle("active", i === current);
+      });
+    }
+
+    function nextSlide() {
+      current = (current + 1) % cards.length;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      current = (current - 1 + cards.length) % cards.length;
+      updateCarousel();
+    }
+
+    nextBtn.addEventListener("click", () => { nextSlide(); resetAutoSlide(); });
+    prevBtn.addEventListener("click", () => { prevSlide(); resetAutoSlide(); });
+
+    function resetAutoSlide() {
+      clearInterval(autoSlide);
+      autoSlide = setInterval(nextSlide, 4000);
+    }
+
+    autoSlide = setInterval(nextSlide, 4000);
+    window.addEventListener("resize", updateCarousel);
+    updateCarousel();
+
+    /* === MODAL === */
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        const name = card.dataset.name;
+        const role = card.dataset.role;
+        const detail = card.dataset.detail;
+        const skills = card.dataset.skill.split(', ');
+        const photo = card.dataset.photo;
+
+        document.getElementById('modalName').textContent = name;
+        document.getElementById('modalRole').textContent = role;
+        document.getElementById('modalDetail').textContent = detail;
+        document.getElementById('modalPhoto').src = photo;
+
+        const skillContainer = document.getElementById('modalSkills');
+        skillContainer.innerHTML = '';
+        skills.forEach(skill => {
+          const tag = document.createElement('span');
+          tag.textContent = skill;
+          tag.style.padding = '4px 10px';
+          tag.style.background = 'rgba(0,209,255,0.2)';
+          tag.style.border = '1px solid rgba(0,209,255,0.4)';
+          tag.style.borderRadius = '20px';
+          tag.style.fontSize = '0.8rem';
+          tag.style.color = '#00d1ff';
+          skillContainer.appendChild(tag);
+        });
+
+        modal.classList.add("show");
+      });
+    });
+
+    closeModal.addEventListener('click', () => modal.classList.remove("show"));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove("show"); });
+  </script>
+</body>
+</html>
